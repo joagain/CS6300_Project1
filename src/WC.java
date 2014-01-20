@@ -13,6 +13,8 @@ public class WC {
 
 	private static final int KO_EXIT = -1;
 	private static final int OK_EXIT = 0;
+	private final int DEFAULT_LENGTH = 3;
+	private final String DEFAULT_DELIMITERS = "[,.;:?!]";
 	private String filename;
 	private int length;
     private String delimiters_string;
@@ -24,9 +26,9 @@ public class WC {
 	 */
 	public WC(String[] args) throws InputError {
         filename = null;
-		length = 3;
+		length = DEFAULT_LENGTH;
 
-        delimiters_string = "[,.;:?!]";
+        delimiters_string = DEFAULT_DELIMITERS;
 		parseCommandLine(args);
 	}
 	
@@ -42,7 +44,7 @@ public class WC {
             switch (args[i].charAt(0)) {
 			case '-':
 				if (args[i].length() != 2) { // no "--D" or "-DD" option
-					throw new InputError("Wrong argument specifier ('" + args[i].charAt(1) + "'). Please refer to the user manual for further information.");
+					throw new InputError("ERR01 - Wrong argument specifier ('" + args[i].charAt(1) + "'). Please refer to the user manual for further information.");
 				}
 				else {
 					switch (args[i].charAt(1)) { // only "-D" and "-L" options are accepted
@@ -53,11 +55,11 @@ public class WC {
 						try {
 							length = Integer.parseInt(args[i+1]); // the value must be a number
 						} catch (NumberFormatException e) {
-							throw new InputError("Wrong argument format ('" + args[i].charAt(1) + "'). The value provided is not a number.");
+							throw new InputError("ERR02 - Wrong argument format ('" + args[i].charAt(1) + "'). The value provided is not a number.");
 						}
 						break;
 					default: // e.g. "-O" option, which does not exist
-						throw new InputError("Wrong argument specifier ('" + args[i].charAt(1) + "'). Please refer to the user manual for further information.");
+						throw new InputError("ERR03 - Wrong argument specifier ('" + args[i].charAt(1) + "'). Please refer to the user manual for further information.");
 					}
 					i++;
 				}
@@ -68,20 +70,20 @@ public class WC {
 			}
 		}
 		if (filename == null) { // a filename MUST be specified by the user
-			throw new InputError("No input file provided. Please refer to the user manual for further information.");
+			throw new InputError("ERR04 - No input file provided. Please refer to the user manual for further information.");
         }
 
         File file = new File (filename);
         if (file.exists()) {
             if (file.isDirectory()) {
-                throw new InputError("The file is a directory. Please refer to the user manual for further information.");
+                throw new InputError("ERR05 - The file is a directory. Please refer to the user manual for further information.");
             }
             if (file.length() == 0) { // provided file must be non-empty
-                throw new InputError("The file provided was empty. Please refer to the user manual for further information.");
+                throw new InputError("ERR06 - The file provided was empty. Please refer to the user manual for further information.");
             }
         }
         else {
-            throw new InputError("No such file exists. Please refer to the user manual for further information.");
+            throw new InputError("ERR07 - No such file exists. Please refer to the user manual for further information.");
         }
     }
 	
@@ -96,7 +98,7 @@ public class WC {
 //            br = new BufferedReader(new InputStreamReader(fis,"UTF-16"));
             br = new BufferedReader(new InputStreamReader(fis));
         } catch (FileNotFoundException e) {
-            throw new InputError("No such file exists. Please refer to the user manual for further information.");
+            throw new InputError("ERR07 - No such file exists. Please refer to the user manual for further information.");
         }
 //        catch (UnsupportedEncodingException e) {
 //            throw new InputError ("The file encoding was incorrect. Please refer to the user manual for further information.");
@@ -129,13 +131,13 @@ public class WC {
                 br.close();
             }
         } catch (IOException e) {
-            throw new InputError ("Error while reading some file contents.");
+            throw new InputError ("ERR08 - Error while reading some file contents.");
         }
         finally {
             try {
                 br.close();
             } catch (IOException e) {
-                throw new InputError ("Error while closing file.");
+                throw new InputError ("ERR09 - Error while closing file.");
             }
         }
 
