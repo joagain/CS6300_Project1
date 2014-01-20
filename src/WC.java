@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.io.*;
+
 import Errors.InputError;
 import Errors.Error;
 
@@ -14,7 +15,7 @@ public class WC {
 	private static final int OK_EXIT = 0;
 	private String filename;
 	private int length;
-	private ArrayList<Character> delimiters;	
+    private String delimiters_string;
 
 	/**
 	 * Constructor. Sets default values for all options.
@@ -22,16 +23,10 @@ public class WC {
 	 * @throws InputError 
 	 */
 	public WC(String[] args) throws InputError {
-		filename = null;
+        filename = null;
 		length = 3;
-		delimiters = new ArrayList<Character>() {{
-			add(',');
-			add('.');
-			add(';');
-			add(':');
-			add('?');
-			add('!');
-		}};
+
+        delimiters_string = "[,.;:?!]";
 		parseCommandLine(args);
 	}
 	
@@ -41,8 +36,10 @@ public class WC {
 	 * @throws InputError 
 	 */
 	private void parseCommandLine(String args[]) throws InputError {
-		for (int i = 0; i < args.length; i++) {
-			switch (args[i].charAt(0)) {
+
+        for (int i = 0; i < args.length; i++) {
+
+            switch (args[i].charAt(0)) {
 			case '-':
 				if (args[i].length() != 2) { // no "--D" or "-DD" option
 					throw new InputError("Wrong argument specifier ('" + args[i].charAt(1) + "'). Please refer to the user manual for further information.");
@@ -50,12 +47,7 @@ public class WC {
 				else {
 					switch (args[i].charAt(1)) { // only "-D" and "-L" options are accepted
 					case 'D':
-						delimiters.clear(); // the delimiters specified by the user override the default ones
-						for (int j = 0; j < args[i+1].length(); j++) { // parsing the delimiters one by one, removing potential duplicates
-							char currDelimiter = args[i+1].charAt(j);
-							if (!delimiters.contains(currDelimiter))
-								delimiters.add(currDelimiter); 
-						}
+                        delimiters_string = "["+args[i+1]+"]";
 						break;
 					case 'L':
 						try {
@@ -75,28 +67,90 @@ public class WC {
 				break;
 			}
 		}
-		if (filename == null) // a filename MUST be specified by the user
+		if (filename == null) { // a filename MUST be specified by the user
 			throw new InputError("No input file provided. Please refer to the user manual for further information.");
-		// TODO: remove when OK
-//		System.out.println("Filename = " + filename);
-//		System.out.println("Length = " + length);
-//		System.out.print("Delimiters = ");
-//		for (char c : delimiters)
-//		System.out.print(c);
-	}
+        }
+
+        File file = new File (filename);
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                throw new InputError("The file is a directory. Please refer to the user manual for further information.");
+            }
+            if (file.length() == 0) { // provided file must be non-empty
+                throw new InputError("The file provided was empty. Please refer to the user manual for further information.");
+            }
+        }
+        else {
+            throw new InputError("No such file exists. Please refer to the user manual for further information.");
+        }
+    }
 	
-	// TODO
-	public int count() {
-		return 0;
+
+	public double count() throws InputError {
+
+        File file = new File (filename);
+        BufferedReader br = null;
+
+        try {
+            FileInputStream fis = new FileInputStream(file);
+//            br = new BufferedReader(new InputStreamReader(fis,"UTF-16"));
+            br = new BufferedReader(new InputStreamReader(fis));
+        } catch (FileNotFoundException e) {
+            throw new InputError("No such file exists. Please refer to the user manual for further information.");
+        }
+//        catch (UnsupportedEncodingException e) {
+//            throw new InputError ("The file encoding was incorrect. Please refer to the user manual for further information.");
+//        }
+        int word_count = 0, sentence_count = 0;
+        double avg_wc = -1;
+
+        try {
+            String CurrentLine;
+
+            while ((CurrentLine = br.readLine()) != null) {
+                String sentences[] = CurrentLine.split(delimiters_string);
+                sentence_count += sentences.length;
+
+                for (String line: sentences) {
+
+                    String words[] = line.split("\\W");
+
+                    for (String word: words) {
+                        if (word.length() >= length) {
+                            word_count ++;
+                        }
+                    }
+                }
+            }
+
+            avg_wc = ((double) word_count)/sentence_count;
+
+            if (br != null) {
+                br.close();
+            }
+        } catch (IOException e) {
+            throw new InputError ("Error while reading some file contents.");
+        }
+        finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                throw new InputError ("Error while closing file.");
+            }
+        }
+
+        return avg_wc;
 	}
 
 	/**
 	 * 
-	 * @param command line arguments
+	 * @param args line arguments
 	 */
 	public static void main(String[] args) {
 		try {
-			WC wc = new WC(args);
+            WC wc = new WC(args);
+            double avg_count = wc.count();
+            System.out.println("The average word count in file is "+avg_count);
 			System.exit(OK_EXIT);
 		} catch (Error e) {
 			e.printMsg();
