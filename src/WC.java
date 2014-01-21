@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.text.*;
 import Errors.InputError;
 import Errors.Error;
 
@@ -138,6 +138,11 @@ public class WC {
 
         return avg_wc;
     }
+    
+    public String format_count(double avg_count) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(avg_count);
+    }
 
     /**
      * @param args line arguments
@@ -146,7 +151,7 @@ public class WC {
         try {
             WC wc = new WC(args);
             double avg_count = wc.count();
-            System.out.println("The average word count in file is " + avg_count);
+            System.out.println("The average word count in file is "+wc.format_count(avg_count));
             System.exit(OK_EXIT);
         } catch (Error e) {
             e.printMsg();
