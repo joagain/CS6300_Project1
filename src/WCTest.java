@@ -14,60 +14,60 @@ public class WCTest {
 
     @Test
     public void testCountNonzero() throws Exception {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "*"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "*"});
         int result = (int) counter.count();
         assertTrue("test01.txt expected average of 9, but got " + result, result == 9);
     }
 
     @Test(expected = InputError.class)
     public void testCountZero() throws Exception {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test02.txt", "-D", "*"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test02.txt", "-D", "*"});
         int result = (int) counter.count();
         assertTrue("test02.txt expected average of 0, but got " + result, result == 0);
     }
 
     @Test(expected = InputError.class)
     public void testParseCommandLineError() throws InputError {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-A", "@"});
-        counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-B", "&"});
-        counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-C", "%"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-A", "@"});
+        counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-B", "&"});
+        counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-C", "%"});
     }
 
     @Test
     public void testParseCommandLineNoError() throws InputError {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#"});
-        counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "$"});
-        counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "^"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "#"});
+        counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "$"});
+        counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "^"});
     }
 
     @Test
     public void testNonEmptyFile() throws InputError {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "#"});
     }
 
     @Test(expected = InputError.class)
     public void testParseEmptyFile() throws InputError {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test02.txt", "-D", "#"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test02.txt", "-D", "#"});
     }
 
     @Test
     public void testMultipleDelimiters() throws InputError {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test03.txt", "-D", "#$"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test03.txt", "-D", "#$"});
         int result = (int) counter.count();
         assertTrue("test03.txt expected average of 1, but got " + result, result == 1);
 
-        counter = new WC(new String[]{"java", "WC", "src\\test03.txt", "-D", "$"});
+        counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test03.txt", "-D", "$"});
         result = (int) counter.count();
         assertTrue("test03.txt expected average of 3, but got " + result, result == 3);
 
-        counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%"});
-        counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%^"});
+        counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "#$%"});
+        counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "#$%^"});
     }
 
 
     @Test
     public void testPerformance() throws InputError {
-        WC counter = new WC(new String[]{"java", "WC", "src\\test04.txt", "-D", "#$"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test04.txt", "-D", "#$"});
         Long startTime = new Long(System.currentTimeMillis());
         counter.count();
         Long endTime = new Long(System.currentTimeMillis());
@@ -77,13 +77,13 @@ public class WCTest {
 
     @Test
     public void testFileCorruption() throws Exception {
-        
-        WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt"});
-        long len = new File("src\\test01.txt").length();
+
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt"});
+        long len = new File("src"+File.separator+"test01.txt").length();
         boolean corrupted = false;
         if (counter.count() != 0) {
 
-            File file = new File("src\\test01.txt");
+            File file = new File("src"+File.separator+"test01.txt");
             if (file.length() != len) {
                 corrupted = true;
             }
