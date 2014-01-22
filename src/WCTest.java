@@ -24,12 +24,12 @@ public class WCTest {
     @Test
     public void testCount() throws Exception {
     	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "*"});
-    	double result1 = counter.count();
-    	assertTrue("test01.txt expected average of 5, but got " + result1, result1 == 5);
+    	int result1 = (int)counter.count();
+    	assertTrue("test01.txt expected average of 9, but got " + result1, result1 == 9);
     	
-    	counter.setFile(new File("src\\test02.txt"));
-    	double result2 = counter.count();
-    	assertTrue("test01.txt expected average of 0, but got " + result2, result2 == 0);
+    	counter.setFilename("src\\test02.txt");
+    	int result2 = (int)counter.count();
+    	assertTrue("test02.txt expected average of 0, but got " + result2, result2 == 0);
     }
 
     @Test
@@ -45,11 +45,15 @@ public class WCTest {
     @Test(expected=InputError.class)
     public void testParseCommandLineError() throws InputError {
     	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-A", "@"});
+    	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-B", "&"});
+    	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-C", "%"});
     }
     
     @Test
     public void testParseCommandLineNoError() throws InputError {
     	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#"});
+    	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "$"});
+    	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "^"});
     }
     
     @Test
@@ -60,5 +64,10 @@ public class WCTest {
     @Test(expected=InputError.class)
     public void testParseEmptyFile() throws InputError {
     	WC counter = new WC(new String[]{"java", "WC", "src\\test02.txt", "-D", "#"});
+    }
+    
+    @Test
+    public void testMultipleDelimiters() throws InputError {
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%"});
     }
 }
