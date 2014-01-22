@@ -1,7 +1,11 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 import org.junit.After;
@@ -83,5 +87,30 @@ public class WCTest {
     	Long endTime = new Long(System.currentTimeMillis());
     	Long elapsedTime = new Long(endTime.longValue() - startTime.longValue());
     	assertTrue("test04.txt expected less than a second to process 500 characters, but took " + elapsedTime.longValue(), elapsedTime.compareTo(new Long(1000)) < 0);
+    }
+
+    @Test
+    public void testFileCorruption () throws Exception {
+        WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt"});
+        long len = new File("src\test01.txt").length();
+        boolean corrupted = false;
+        if (counter.count() != 0) {
+
+            File file = new File("src\test04.txt");
+            if (file.length() != len) {
+                corrupted = true;
+            }
+            FileInputStream fis = new FileInputStream(file);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            if (br.readLine() == null) {
+                corrupted = true;
+            }
+
+            br.close();
+        };
+
+        assertFalse("The file was corrupted during processing",corrupted);
+
     }
 }
