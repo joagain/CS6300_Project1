@@ -23,11 +23,11 @@ public class WCTest {
 
     @Test
     public void testCount() throws Exception {
-    	WC counter = new WC(new String[]{"java", "WC", "test01.txt", "-D", "*"});
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "*"});
     	double result1 = counter.count();
     	assertTrue("test01.txt expected average of 5, but got " + result1, result1 == 5);
     	
-    	counter.setFile(new File("test02.txt"));
+    	counter.setFile(new File("src\\test02.txt"));
     	double result2 = counter.count();
     	assertTrue("test01.txt expected average of 0, but got " + result2, result2 == 0);
     }
@@ -44,11 +44,21 @@ public class WCTest {
 
     @Test(expected=InputError.class)
     public void testParseCommandLineError() throws InputError {
-    	WC counter = new WC(new String[]{"java", "WC", "test01.txt", "-A", "@"});
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-A", "@"});
     }
     
     @Test
     public void testParseCommandLineNoError() throws InputError {
-    	WC counter = new WC(new String[]{"java", "WC", "test01.txt", "-D", "#"});
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#"});
+    }
+    
+    @Test
+    public void testNonEmptyFile() throws InputError {
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#"});
+    }
+    
+    @Test(expected=InputError.class)
+    public void testParseEmptyFile() throws InputError {
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test02.txt", "-D", "#"});
     }
 }
