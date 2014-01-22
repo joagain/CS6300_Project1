@@ -18,6 +18,7 @@ public class WC {
     private String filename;
     private int length;
     private String delimiters_string;
+    private File file;
 
     /**
      * Constructor. Sets default values for all options.
@@ -90,7 +91,7 @@ public class WC {
 
     public double count() throws InputError {
 
-        File file = new File(filename);
+        file = new File(filename);
         BufferedReader br = null;
 
         try {
@@ -182,6 +183,14 @@ public class WC {
 
 	public String getDEFAULT_DELIMITERS() {
 		return DEFAULT_DELIMITERS;
+	}
+	
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	/**
