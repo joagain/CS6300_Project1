@@ -11,26 +11,6 @@ import Errors.InputError;
 
 public class WCTest {
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
-    
-    @Test
-    public void testFormat_count() throws Exception {
-
-    }
-
-    @Test
-    public void testMain() throws Exception {
-
-    }
-
     @Test
     public void testCountNonzero() throws Exception {
     	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "*"});
