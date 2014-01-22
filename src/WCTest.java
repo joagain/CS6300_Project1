@@ -62,4 +62,14 @@ public class WCTest {
     	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%"});
     	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%^"});
     }
+    
+    @Test
+    public void testPerformance() throws InputError {
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test04.txt", "-D", "#$"});
+    	Long startTime = new Long(System.currentTimeMillis());
+    	counter.count();
+    	Long endTime = new Long(System.currentTimeMillis());
+    	Long elapsedTime = new Long(endTime.longValue() - startTime.longValue());
+    	assertTrue("test04.txt expected less than a second to process 500 characters, but took " + elapsedTime.longValue(), elapsedTime.compareTo(new Long(1000)) < 0);
+    }
 }
