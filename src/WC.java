@@ -52,6 +52,7 @@ public class WC {
                         switch (args[i].charAt(1)) { // only "-D" and "-L" options are accepted
                             case 'D':
                                 delimiters_string = "[" + args[i + 1] + "]";
+                                System.out.println("in D");
                                 break;
                             case 'L':
                                 try {
@@ -59,6 +60,7 @@ public class WC {
                                 } catch (NumberFormatException e) {
                                     throw new InputError("ERR02 - Wrong argument format ('" + args[i].charAt(1) + "'). The value provided is not a number.");
                                 }
+                                System.out.println("in L");
                                 break;
                             default: // e.g. "-O" option, which does not exist
                                 throw new InputError("ERR03 - Wrong argument specifier ('" + args[i].charAt(1) + "'). Please refer to the user manual for further information.");

@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import Errors.InputError;
+
 public class WCTest {
 
     @Before
@@ -21,7 +23,7 @@ public class WCTest {
 
     @Test
     public void testCount() throws Exception {
-    	WC counter = new WC(new String[]{"java", "WC", "test01.txt", "-D", "'"});
+    	WC counter = new WC(new String[]{"java", "WC", "test01.txt", "-D", "*"});
     	double result1 = counter.count();
     	assertTrue("test01.txt expected average of 5, but got " + result1, result1 == 5);
     	
@@ -40,8 +42,13 @@ public class WCTest {
 
     }
 
+    @Test(expected=InputError.class)
+    public void testParseCommandLineError() throws InputError {
+    	WC counter = new WC(new String[]{"java", "WC", "test01.txt", "-A", "@"});
+    }
+    
     @Test
-    public void testParseCommandLine () throws Exception {
-    	String[] test1 = {};
+    public void testParseCommandLineNoError() throws InputError {
+    	WC counter = new WC(new String[]{"java", "WC", "test01.txt", "-D", "#"});
     }
 }
