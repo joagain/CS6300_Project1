@@ -143,8 +143,48 @@ public class WC {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(avg_count);
     }
+    
+    public String getFilename() {
+		return filename;
+	}
 
-    /**
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public String getDelimiters_string() {
+		return delimiters_string;
+	}
+
+	public void setDelimiters_string(String delimiters_string) {
+		this.delimiters_string = delimiters_string;
+	}
+
+	public static int getKoExit() {
+		return KO_EXIT;
+	}
+
+	public static int getOkExit() {
+		return OK_EXIT;
+	}
+
+	public int getDEFAULT_LENGTH() {
+		return DEFAULT_LENGTH;
+	}
+
+	public String getDEFAULT_DELIMITERS() {
+		return DEFAULT_DELIMITERS;
+	}
+
+	/**
      * @param args line arguments
      */
     public static void main(String[] args) {
