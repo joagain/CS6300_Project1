@@ -2,9 +2,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by palindrome on 1/21/14.
- */
 public class WCTest {
 
     @Before
