@@ -71,7 +71,7 @@ public class WCTest {
         counter.count();
         end = new Date();
         long time_taken = (end.getTime() - start.getTime())/1000;
-        assertTrue("Expected to finish the test in ", time_taken > counter.getWords()/5000);
+        assertTrue("Expected to finish the test in less than "+counter.getWords()/5000 +" seconds", time_taken < counter.getWords()/5000);
     }
 
     
