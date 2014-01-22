@@ -19,6 +19,7 @@ public class WC {
     private int length;
     private String delimiters_string;
     private File file;
+    private int Words;
 
     /**
      * Constructor. Sets default values for all options.
@@ -117,6 +118,7 @@ public class WC {
 
                     String words[] = line.split("\\W");
 
+                    Words += words.length;
                     for (String word : words) {
                         if (word.length() >= length) {
                             word_count++;
@@ -151,6 +153,10 @@ public class WC {
     public String getFilename() {
 		return filename;
 	}
+
+    public int getWords () {
+        return Words;
+    }
 
 	public void setFilename(String filename) {
 		this.filename = filename;

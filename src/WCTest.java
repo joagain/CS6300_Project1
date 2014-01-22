@@ -2,6 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -61,5 +62,15 @@ public class WCTest {
     	
     	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%"});
     	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%^"});
+    }
+
+    @Test
+    public void testCounterSpeed() throws Exception {
+        WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt"});
+        Date start = new Date(), end;
+        counter.count();
+        end = new Date();
+        long time_taken = (end.getTime() - start.getTime())/1000;
+        assertTrue("Expected to finish the test in ", time_taken > counter.getWords()/5000);
     }
 }
