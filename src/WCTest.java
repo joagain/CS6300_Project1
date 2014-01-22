@@ -20,18 +20,7 @@ public class WCTest {
     public void tearDown() throws Exception {
 
     }
-
-    @Test
-    public void testCount() throws Exception {
-    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "*"});
-    	int result1 = (int)counter.count();
-    	assertTrue("test01.txt expected average of 9, but got " + result1, result1 == 9);
-    	
-    	counter.setFilename("src\\test02.txt");
-    	int result2 = (int)counter.count();
-    	assertTrue("test02.txt expected average of 0, but got " + result2, result2 == 0);
-    }
-
+    
     @Test
     public void testFormat_count() throws Exception {
 
@@ -40,6 +29,20 @@ public class WCTest {
     @Test
     public void testMain() throws Exception {
 
+    }
+
+    @Test
+    public void testCountNonzero() throws Exception {
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "*"});
+    	int result = (int)counter.count();
+    	assertTrue("test01.txt expected average of 9, but got " + result, result == 9);
+    }
+    
+    @Test(expected=InputError.class)
+    public void testCountZero() throws Exception {
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test02.txt", "-D", "*"});
+    	int result = (int)counter.count();
+    	assertTrue("test02.txt expected average of 0, but got " + result, result == 0);
     }
 
     @Test(expected=InputError.class)
@@ -68,6 +71,15 @@ public class WCTest {
     
     @Test
     public void testMultipleDelimiters() throws InputError {
-    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%"});
+    	WC counter = new WC(new String[]{"java", "WC", "src\\test03.txt", "-D", "#$"});
+    	int result = (int)counter.count();
+    	assertTrue("test03.txt expected average of 1, but got " + result, result == 1);
+    	
+    	counter = new WC(new String[]{"java", "WC", "src\\test03.txt", "-D", "$"});
+    	result = (int)counter.count();
+    	assertTrue("test03.txt expected average of 3, but got " + result, result == 3);
+    	
+    	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%"});
+    	counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#$%^"});
     }
 }
