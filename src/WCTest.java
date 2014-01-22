@@ -92,11 +92,11 @@ public class WCTest {
     @Test
     public void testFileCorruption () throws Exception {
         WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt"});
-        long len = new File("src\test01.txt").length();
+        long len = new File("src\\test01.txt").length();
         boolean corrupted = false;
         if (counter.count() != 0) {
 
-            File file = new File("src\test04.txt");
+            File file = new File("src\\test01.txt");
             if (file.length() != len) {
                 corrupted = true;
             }
