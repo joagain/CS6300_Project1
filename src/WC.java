@@ -127,8 +127,11 @@ public class WC {
                 }
             }
 
+            //System.out.println("word count: " + word_count);
+            //System.out.println("sentence count: " + sentence_count);
             avg_wc = ((double) word_count) / sentence_count;
 
+            //System.out.println("average: " + avg_wc);
             if (br != null) {
                 br.close();
             }

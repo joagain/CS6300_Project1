@@ -122,9 +122,9 @@ public class WCTest {
     // test 11
     @Test
     public void testNonEmptyFile() throws InputError {
-        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "#"});
+        WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test05.txt"});
         int result = (int) counter.count();
-        assertTrue("test01.txt expected average of 9, but got " + result, result == 9);
+        assertTrue("test05.txt expected average of 1, but got " + result, result == 1);
     }
 
     // test 12
