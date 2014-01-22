@@ -13,4 +13,7 @@ public class InputError extends Error {
 		this.message = "[Input error] " + message;
 	}
 	
+	public String getMessage() {
+		return this.message;
+	}
 }

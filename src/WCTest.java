@@ -36,13 +36,13 @@ public class WCTest {
     // test 2
     @Test(expected=InputError.class)
     public void testBadArgument() throws InputError {
-    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "@", "-L", "M"});
+    	WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "@", "-L", "M"});
     }
     
     // test 3
     @Test(expected=InputError.class)
     public void testParseCommandLineError() throws InputError {
-    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-A", "@"});
+    	WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-A", "@"});
     }
     
     // test 4
@@ -96,13 +96,13 @@ public class WCTest {
     // test 8
     @Test
     public void testReadingContent() throws InputError {
-    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "#"});
+    	WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "#"});
     }
     
     // test 9
     @Test
     public void testCountNonzero() throws Exception {
-    	WC counter = new WC(new String[]{"java", "WC", "src\\test01.txt", "-D", "*"});
+    	WC counter = new WC(new String[]{"java", "WC", "src"+File.separator+"test01.txt", "-D", "*"});
     	int result = (int)counter.count();
     	assertTrue("test01.txt expected average of 9, but got " + result, result == 9);
     }
